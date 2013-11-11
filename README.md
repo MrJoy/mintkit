@@ -2,6 +2,10 @@
 
 A Mint.com API.  Not at all affiliated with or endorsed by mint.com/intuit.  Your mileage may vary.
 
+## This Fork
+
+* This fork has been updated to work with Mint.com as of 2013-11-10.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,13 +22,13 @@ Or install it yourself as:
 
 ## Usage
 
-Command line: 
+Command line:
 
 ``` shell
 mintkit --help
 ```
 
-Ruby API: 
+Ruby API:
 
 ```ruby
 client = Mintkit::Client.new(username,password)
