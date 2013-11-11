@@ -106,7 +106,7 @@ module Mintkit
       page = @agent.submit(form,form.buttons.first)
 
       raise FailedLogin unless page.at('input').attributes["value"]
-      @token = page.at('input').attributes["value"].value.match(/"token":"([0-9a-zA-Z]*)"/)[1]
+      @token = page.at('input#javascript-token').attributes['value'].value
     end
 
     def logout
