@@ -93,7 +93,7 @@ module Mintkit
       @agent.post("https://wwws.mint.com/refreshFILogins.xevent", {"token"=>@token})
 
       true
-      
+
     end
   private
 
