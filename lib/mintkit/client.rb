@@ -1,6 +1,7 @@
 require "mechanize"
 require "json"
 require "mintkit/error"
+require "csv"
 
 module Mintkit
 
@@ -21,32 +22,31 @@ module Mintkit
 
       transos = []
 
-      raw_transactions.split("\n").each_with_index do |line,index|
+      CSV::Converters[:string] = proc do |field|
+        field.encode(ConverterEncoding) rescue field
+      end
 
-        if index > 1
-          line_array = line.split(",")
-          transaction = {
-            :date => Date.strptime(remove_quotes(line_array[0]), '%m/%d/%Y'),
-            :description=>remove_quotes(line_array[1]),
-            :original_description=>remove_quotes(line_array[2]),
-            :amount=>remove_quotes(line_array[3]).to_f,
-            :type=>remove_quotes(line_array[4]),
-            :category=>remove_quotes(line_array[5]),
-            :account=>remove_quotes(line_array[6]),
-            :labels=>remove_quotes(line_array[7]),
-            :notes=>remove_quotes(line_array[8])
-          }
-          transos << transaction
+      transos = CSV.parse(raw_transactions, { :headers => true }).map do |row|
+        puts row.inspect
+        {
+          :date                   => Date.strptime(row['Date'], '%m/%d/%Y'),
+          :description            => row['Description'],
+          :original_description   => row['Original Description'],
+          :amount                 => row['Amount'].to_f,
+          :type                   => row['Transaction Type'],
+          :category               => row['Category'],
+          :account                => row['Account Name'],
+          :labels                 => row['Labels'],
+          :notes                  => row['Notes'],
+        }
+      end
 
-        if block_given?
+      if block_given?
+        transos.each do |transaction|
           yield transaction
         end
-
-        end
-
       end
       transos
-      
     end
 
     def accounts
