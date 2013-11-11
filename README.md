@@ -4,7 +4,8 @@ A Mint.com API.  Not at all affiliated with or endorsed by mint.com/intuit.  You
 
 ## This Fork
 
-* This fork has been updated to work with Mint.com as of 2013-11-10.
+* Updated to work with Mint.com as of 2013-11-10.
+* Updated to properly handle transactions with commas in any field.
 
 ## Installation
 
